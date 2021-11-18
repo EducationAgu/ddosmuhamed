@@ -8,10 +8,10 @@ type Service struct {
 	interfaces.AccountService
 }
 
-func New(db interfaces.Provider) *Service {
+func New(db interfaces.Provider, salt int) *Service {
 	tokenManager := NewManager("key")
 	return &Service{
-		UserService:         NewUser(db, tokenManager),
+		UserService:         NewUser(db, tokenManager, salt),
 		TokenManagerService: tokenManager,
 		AccountService:      NewAccount(db),
 	}

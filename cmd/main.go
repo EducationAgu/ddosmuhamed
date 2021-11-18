@@ -11,14 +11,15 @@ import (
 func main() {
 	// docker run -d --name go-auth -e POSTGRES_PASSWORD=golang -e  POSTGRES_USER=golang -e POSTGRES_DB=golang --restart always -p "501:5432" postgres
 	db := pg.Connect(&pg.Options{
-		Addr:     "postgres:5432",
+		Addr:     "db:5432",
 		User:     "golang",
 		Password: "golang",
 		Database: "golang",
 	})
 
-	provider := data.New(db)
-	service := service.New(provider)
+	salt := 10
+	provider := data.New(db, salt)
+	srv := service.New(provider, salt)
 
-	server.New(service).Start()
+	server.New(srv, salt).Start()
 }

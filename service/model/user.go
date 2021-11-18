@@ -6,4 +6,6 @@ type User struct {
 	Username string
 	Email    string
 	Password string `json:"password,omitempty"`
+
+	Salt string
 }

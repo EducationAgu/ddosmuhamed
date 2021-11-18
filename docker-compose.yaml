@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.5'
 
 services:
   db:
@@ -16,9 +16,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      homework:
-        aliases:
-          - postgres
+      proxynet:
 
   migration:
     build:
@@ -28,9 +26,8 @@ services:
       - db
     command: "./migrations/main"
     networks:
-        homework:
-          aliases:
-            - migrations
+      proxynet:
+
   app:
     build:
       context: .
@@ -41,12 +38,8 @@ services:
       - migration
     command: "./main"
     networks:
-      homework:
-        aliases:
-          - backend
+      proxynet:
 
 networks:
-  homework:
-    driver: bridge
-    driver_opts:
-      com.docker.network.enable_ipv6: "false"
+  proxynet:
+    name: homework_network

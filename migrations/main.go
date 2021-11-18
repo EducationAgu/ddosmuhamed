@@ -13,12 +13,11 @@ import (
 func main() {
 
 	db := pg.Connect(&pg.Options{
-		Addr:     "postgres:5432",
+		Addr:     "db:5432",
 		User:     "golang",
 		Password: "golang",
 		Database: "golang",
 	})
-	fmt.Println("Мигрируемс")
 	var err error
 
 	oldVersion, newVersion, err := migrations.Run(db, pflag.Args()...)
@@ -32,16 +31,12 @@ func main() {
 			}
 		}
 
-		fmt.Println("Мигрируемс 4")
 		oldVersion, newVersion, err = migrations.Run(db, pflag.Args()...)
-		fmt.Println("Мигрируемс 5")
 		if err != nil {
-			fmt.Println("Мигрируемс 67")
 			fmt.Println(err.Error())
 			fmt.Printf("Ошибка при накатке миграции! %s", err.Error())
 			os.Exit(1)
 		}
-		fmt.Println("Мигрируемс 6")
 	}
 
 	fmt.Println(oldVersion, " -> ", newVersion)

@@ -14,9 +14,9 @@ type Provider struct {
 	account interfaces.AccountProvider
 }
 
-func New(db *pg.DB) *Provider {
+func New(db *pg.DB, salt int) *Provider {
 	return &Provider{
-		user:    NewUser(db),
+		user:    NewUser(db, salt),
 		session: NewSession(db),
 		account: NewAccount(db),
 	}

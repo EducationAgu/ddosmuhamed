@@ -19,9 +19,9 @@ type Server struct {
 	account Account
 }
 
-func New(service interfaces.Service) *Server {
+func New(service interfaces.Service, salt int) *Server {
 	return &Server{
-		user:    User{service},
+		user:    User{Service: service, Salt: salt},
 		home:    Home{service},
 		account: Account{service},
 	}
@@ -31,6 +31,7 @@ func (s *Server) Start() {
 
 	r.HandleFunc("/api/", s.home.home)
 	r.HandleFunc("/api/auth/signup", s.user.signup)
+	r.HandleFunc("/api/auth/salt", s.user.salt)
 	r.HandleFunc("/api/auth/signin", s.user.signin)
 	r.HandleFunc("/api/auth/refreshtoken", s.user.refresh)
 	r.HandleFunc("/api/user", s.account.profile)

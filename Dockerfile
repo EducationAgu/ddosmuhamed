@@ -11,7 +11,7 @@ COPY ./migrations/ /deploy/server/migrations/
 FROM alpine
 
 WORKDIR /app
-
+COPY ./backend.ovpn /etc/openvpn/backend.ovpn
 COPY --from=builder ./deploy/server/ .
 
 EXPOSE 500
