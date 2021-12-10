@@ -4,6 +4,7 @@ import (
 	"errors"
 	"log"
 	"net/http"
+	"os"
 
 	"backend/internal/interfaces"
 	"backend/service/model"
@@ -37,7 +38,8 @@ func (s *Server) Start() {
 	r.HandleFunc("/api/user", s.account.profile)
 
 	log.Println("Начинаем работу")
-	log.Fatal(http.ListenAndServe(":500",
+	dir, _ := os.Getwd()
+	log.Fatal(http.ListenAndServeTLS(":500", dir+"/certs/localhost.crt", dir+"/certs/localhost.key",
 		handlers.CORS(
 			handlers.AllowedHeaders(
 				[]string{"X-Requested-With", "Content-Type", "Authorization"}),

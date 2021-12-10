@@ -7,11 +7,11 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /deploy/server/migrations/
     CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /deploy/server/main ./cmd/main.go
 
 COPY ./migrations/ /deploy/server/migrations/
+COPY ./certs/ /deploy/server/certs
 
 FROM alpine
 
 WORKDIR /app
-COPY ./backend.ovpn /etc/openvpn/backend.ovpn
 COPY --from=builder ./deploy/server/ .
 
 EXPOSE 500
