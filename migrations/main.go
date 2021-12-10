@@ -13,7 +13,7 @@ import (
 func main() {
 
 	db := pg.Connect(&pg.Options{
-		Addr:     "localhost:501",
+		Addr:     "db:5432",
 		User:     "golang",
 		Password: "golang",
 		Database: "golang",
