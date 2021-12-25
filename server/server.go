@@ -4,6 +4,7 @@ import (
 	"errors"
 	"log"
 	"net/http"
+	"os"
 
 	"backend/internal/interfaces"
 	"backend/service/model"
@@ -36,8 +37,10 @@ func (s *Server) Start() {
 	r.HandleFunc("/api/auth/refreshtoken", s.user.refresh)
 	r.HandleFunc("/api/user", s.account.profile)
 
+	dir, _ := os.Getwd()
+
 	log.Println("Начинаем работу")
-	log.Fatal(http.ListenAndServe(":500", // dir+"/certs/localhost.crt", dir+"/certs/localhost.key",
+	log.Fatal(http.ListenAndServeTLS(":500", dir+"/certs/localhost.crt", dir+"/certs/localhost.key",
 		handlers.CORS(
 			handlers.AllowedHeaders(
 				[]string{"X-Requested-With", "Content-Type", "Authorization"}),
